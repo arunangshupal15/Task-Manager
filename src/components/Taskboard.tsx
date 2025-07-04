@@ -1,14 +1,14 @@
 "use client";
 
 import { useState, useMemo } from 'react';
-import { Task, Priority } from '@/lib/types';
+import { Task } from '@/lib/types';
 import { TaskCard } from './TaskCard';
 import { Input } from './ui/input';
 import { Button } from './ui/button';
-import { Tabs, TabsList, TabsTrigger, TabsContent } from './ui/tabs';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from './ui/dialog';
 import { TaskForm } from './TaskForm';
-import { PlusCircle, Search, Inbox } from 'lucide-react';
+import { PlusCircle, Search, Inbox, List, ListChecks, CheckCircle2 } from 'lucide-react';
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
 
 interface TaskboardProps {
   tasks: Task[];
@@ -26,7 +26,12 @@ export function Taskboard({ tasks, addTask, updateTask, deleteTask, toggleTaskCo
   const [isFormOpen, setIsFormOpen] = useState(false);
 
   const filteredTasks = useMemo(() => {
-    return tasks
+    const sorted = tasks.sort((a, b) => {
+        const priorityOrder = { urgent: 0, high: 1, medium: 2, low: 3 };
+        return priorityOrder[a.priority] - priorityOrder[b.priority];
+    });
+
+    return sorted
       .filter(task => {
         if (filter === 'completed') return task.completed;
         if (filter === 'pending') return !task.completed;
@@ -48,23 +53,23 @@ export function Taskboard({ tasks, addTask, updateTask, deleteTask, toggleTaskCo
     <div className="space-y-6">
       <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
         <div className="relative flex-1">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+          <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
           <Input
             type="search"
-            placeholder="Search tasks..."
+            placeholder="Search tasks by title or description..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="pl-10 text-base"
+            className="pl-11 h-12 text-base rounded-full bg-card"
           />
         </div>
         <Dialog open={isFormOpen} onOpenChange={setIsFormOpen}>
           <DialogTrigger asChild>
-            <Button className="w-full md:w-auto">
+            <Button className="w-full md:w-auto h-12 rounded-full font-bold text-base">
               <PlusCircle className="mr-2 h-5 w-5" />
-              Add Task
+              Add New Task
             </Button>
           </DialogTrigger>
-          <DialogContent className="sm:max-w-[425px]">
+          <DialogContent className="sm:max-w-[480px]">
             <DialogHeader>
               <DialogTitle>Add New Task</DialogTitle>
             </DialogHeader>
@@ -73,37 +78,43 @@ export function Taskboard({ tasks, addTask, updateTask, deleteTask, toggleTaskCo
         </Dialog>
       </div>
 
-      <Tabs value={filter} onValueChange={(value) => setFilter(value as Filter)}>
-        <TabsList className="grid w-full grid-cols-3 md:w-auto md:inline-flex">
-          <TabsTrigger value="all">All ({taskCounts.all})</TabsTrigger>
-          <TabsTrigger value="pending">Pending ({taskCounts.pending})</TabsTrigger>
-          <TabsTrigger value="completed">Completed ({taskCounts.completed})</TabsTrigger>
-        </TabsList>
+       <div className="flex justify-center">
+        <ToggleGroup type="single" value={filter} onValueChange={(value) => { if (value) setFilter(value as Filter) }} className="bg-card rounded-full p-1.5 border">
+            <ToggleGroupItem value="all" aria-label="All tasks" className="rounded-full px-6 text-base data-[state=on]:text-primary-foreground data-[state=on]:bg-primary">
+                <List className="mr-2 h-4 w-4" /> All ({taskCounts.all})
+            </ToggleGroupItem>
+            <ToggleGroupItem value="pending" aria-label="Pending tasks" className="rounded-full px-6 text-base data-[state=on]:text-primary-foreground data-[state=on]:bg-primary">
+                <ListChecks className="mr-2 h-4 w-4" /> Pending ({taskCounts.pending})
+            </ToggleGroupItem>
+            <ToggleGroupItem value="completed" aria-label="Completed tasks" className="rounded-full px-6 text-base data-[state=on]:text-primary-foreground data-[state=on]:bg-primary">
+                <CheckCircle2 className="mr-2 h-4 w-4" /> Completed ({taskCounts.completed})
+            </ToggleGroupItem>
+        </ToggleGroup>
+       </div>
         
-        <TabsContent value={filter}>
-          {filteredTasks.length > 0 ? (
-            <div className="grid gap-4 sm:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3">
-              {filteredTasks.map(task => (
-                <TaskCard
-                  key={task.id}
-                  task={task}
-                  updateTask={updateTask}
-                  deleteTask={deleteTask}
-                  toggleTaskCompletion={toggleTaskCompletion}
-                />
-              ))}
-            </div>
-          ) : (
-            <div className="flex flex-col items-center justify-center rounded-lg border-2 border-dashed border-muted-foreground/30 bg-muted/20 p-12 text-center">
-              <Inbox className="h-12 w-12 text-muted-foreground/50" />
-              <h3 className="mt-4 text-lg font-semibold text-muted-foreground">No tasks found</h3>
-              <p className="mt-1 text-sm text-muted-foreground/80">
-                There are no tasks matching your current filter.
-              </p>
-            </div>
-          )}
-        </TabsContent>
-      </Tabs>
+      <div>
+        {filteredTasks.length > 0 ? (
+          <div className="grid gap-6 sm:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3">
+            {filteredTasks.map(task => (
+              <TaskCard
+                key={task.id}
+                task={task}
+                updateTask={updateTask}
+                deleteTask={deleteTask}
+                toggleTaskCompletion={toggleTaskCompletion}
+              />
+            ))}
+          </div>
+        ) : (
+          <div className="flex flex-col items-center justify-center rounded-lg border-2 border-dashed border-muted-foreground/20 bg-card/50 p-16 text-center mt-12">
+            <Inbox className="h-16 w-16 text-muted-foreground/30" />
+            <h3 className="mt-6 text-2xl font-semibold text-muted-foreground">No tasks found</h3>
+            <p className="mt-2 text-base text-muted-foreground/80">
+              There are no tasks matching your current filters.
+            </p>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

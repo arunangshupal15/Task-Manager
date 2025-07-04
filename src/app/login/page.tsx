@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { User } from 'lucide-react';
+import { CheckSquare } from 'lucide-react';
 
 export default function LoginPage() {
   const [username, setUsername] = useState('');
@@ -21,15 +21,18 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-background p-4">
-      <Card className="w-full max-w-sm">
-        <CardHeader>
-          <CardTitle className="text-2xl font-headline flex items-center gap-2">
-            <User className="h-6 w-6" />
-            Welcome to TaskMaster
+    <div className="flex min-h-screen flex-col items-center justify-center bg-background bg-gradient-soft p-4">
+      <div className="absolute top-8 flex items-center gap-2 text-foreground/80">
+        <CheckSquare className="h-6 w-6" />
+        <h1 className="text-xl font-bold font-headline">TaskMaster</h1>
+      </div>
+      <Card className="w-full max-w-sm shadow-2xl shadow-primary/10 dark:shadow-primary/5">
+        <CardHeader className="text-center">
+          <CardTitle className="text-2xl font-headline">
+            Welcome Back!
           </CardTitle>
           <CardDescription>
-            Please enter your username to continue.
+            Enter your username to manage your tasks.
           </CardDescription>
         </CardHeader>
         <form onSubmit={handleLogin}>
@@ -43,17 +46,20 @@ export default function LoginPage() {
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 required
-                className="text-base"
+                className="text-base h-11"
               />
             </div>
           </CardContent>
           <CardFooter>
-            <Button type="submit" className="w-full">
-              Enter
+            <Button type="submit" className="w-full h-11 text-base font-bold">
+              Sign In &rarr;
             </Button>
           </CardFooter>
         </form>
       </Card>
+       <p className="text-center text-xs text-muted-foreground mt-8">
+        © {new Date().getFullYear()} TaskMaster Inc.
+      </p>
     </div>
   );
 }

@@ -18,7 +18,7 @@ import { format } from 'date-fns';
 const formSchema = z.object({
   title: z.string().min(1, { message: "Title is required." }).max(100),
   description: z.string().max(500).optional(),
-  priority: z.enum(["low", "medium", "high"]),
+  priority: z.enum(["low", "medium", "high", "urgent"]),
   dueDate: z.date().optional(),
 });
 
@@ -56,7 +56,7 @@ export function TaskForm({ task, onSubmit, closeForm }: TaskFormProps) {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(handleFormSubmit)} className="space-y-4">
+      <form onSubmit={form.handleSubmit(handleFormSubmit)} className="space-y-6">
         <FormField
           control={form.control}
           name="title"
@@ -64,7 +64,7 @@ export function TaskForm({ task, onSubmit, closeForm }: TaskFormProps) {
             <FormItem>
               <FormLabel>Title</FormLabel>
               <FormControl>
-                <Input placeholder="e.g. Design new landing page" {...field} />
+                <Input placeholder="e.g. Design new landing page" {...field} className="h-11" />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -92,12 +92,12 @@ export function TaskForm({ task, onSubmit, closeForm }: TaskFormProps) {
                 <FormLabel>Priority</FormLabel>
                 <Select onValueChange={field.onChange} defaultValue={field.value}>
                   <FormControl>
-                    <SelectTrigger>
+                    <SelectTrigger className="h-11">
                       <SelectValue placeholder="Select a priority" />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    {(['low', 'medium', 'high'] as Priority[]).map(p => (
+                    {(['low', 'medium', 'high', 'urgent'] as Priority[]).map(p => (
                       <SelectItem key={p} value={p} className="capitalize">{p}</SelectItem>
                     ))}
                   </SelectContent>
@@ -118,7 +118,7 @@ export function TaskForm({ task, onSubmit, closeForm }: TaskFormProps) {
                       <Button
                         variant={"outline"}
                         className={cn(
-                          "w-full pl-3 text-left font-normal",
+                          "w-full pl-3 text-left font-normal h-11",
                           !field.value && "text-muted-foreground"
                         )}
                       >
@@ -144,7 +144,7 @@ export function TaskForm({ task, onSubmit, closeForm }: TaskFormProps) {
         </div>
         <div className="flex justify-end gap-2 pt-4">
           <Button type="button" variant="ghost" onClick={closeForm}>Cancel</Button>
-          <Button type="submit">{task ? 'Save Changes' : 'Add Task'}</Button>
+          <Button type="submit" className="font-bold">{task ? 'Save Changes' : 'Create Task'}</Button>
         </div>
       </form>
     </Form>
