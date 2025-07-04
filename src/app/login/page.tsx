@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -10,7 +10,12 @@ import { CheckSquare } from 'lucide-react';
 
 export default function LoginPage() {
   const [username, setUsername] = useState('');
+  const [year, setYear] = useState<number | null>(null);
   const router = useRouter();
+
+  useEffect(() => {
+    setYear(new Date().getFullYear());
+  }, []);
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
@@ -57,8 +62,8 @@ export default function LoginPage() {
           </CardFooter>
         </form>
       </Card>
-       <p className="text-center text-xs text-muted-foreground mt-8">
-        © {new Date().getFullYear()} TaskMaster Inc.
+       <p className="text-center text-xs text-muted-foreground mt-8 h-4">
+        {year && `© ${year} TaskMaster Inc.`}
       </p>
     </div>
   );
