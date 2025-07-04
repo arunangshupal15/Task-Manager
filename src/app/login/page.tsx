@@ -12,10 +12,12 @@ import { Skeleton } from '@/components/ui/skeleton';
 export default function LoginPage() {
   const [username, setUsername] = useState('');
   const [isClient, setIsClient] = useState(false);
+  const [year, setYear] = useState<number | null>(null);
   const router = useRouter();
 
   useEffect(() => {
     setIsClient(true);
+    setYear(new Date().getFullYear());
   }, []);
 
   const handleLogin = (e: React.FormEvent) => {
@@ -79,7 +81,7 @@ export default function LoginPage() {
         </form>
       </Card>
        <p className="text-center text-xs text-muted-foreground mt-8 h-4">
-        © {new Date().getFullYear()} TaskMaster Inc.
+        {year && `© ${year} TaskMaster Inc.`}
       </p>
     </div>
   );
