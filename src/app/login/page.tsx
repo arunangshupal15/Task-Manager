@@ -26,18 +26,18 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-background bg-gradient-soft p-4">
+    <div className="flex min-h-screen flex-col items-center justify-center bg-background p-4">
       <div className="absolute top-8 flex items-center gap-2 text-foreground/80">
-        <CheckSquare className="h-6 w-6" />
-        <h1 className="text-xl font-bold font-headline">TaskMaster</h1>
+        <CheckSquare className="h-6 w-6 text-primary" />
+        <h1 className="text-xl font-bold font-headline">TaskFlow</h1>
       </div>
-      <Card className="w-full max-w-sm shadow-2xl shadow-primary/10 dark:shadow-primary/5">
+      <Card className="w-full max-w-sm shadow-lg">
         <CardHeader className="text-center">
           <CardTitle className="text-2xl font-headline">
-            Welcome Back!
+            Welcome!
           </CardTitle>
           <CardDescription>
-            Enter your username to manage your tasks.
+            Enter your username to get started.
           </CardDescription>
         </CardHeader>
         <form onSubmit={handleLogin}>
@@ -57,13 +57,13 @@ export default function LoginPage() {
           </CardContent>
           <CardFooter>
             <Button type="submit" className="w-full h-11 text-base font-bold">
-              Sign In &rarr;
+              Continue &rarr;
             </Button>
           </CardFooter>
         </form>
       </Card>
        <p className="text-center text-xs text-muted-foreground mt-8 h-4">
-        {year && `© ${year} TaskMaster Inc.`}
+        {year && `© ${year} TaskFlow Inc.`}
       </p>
     </div>
   );

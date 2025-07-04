@@ -12,6 +12,7 @@ import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, 
 import { TaskForm } from './TaskForm';
 import { Edit, Trash2, Calendar, ChevronsUp, ChevronUp, Equal, ChevronDown } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './ui/tooltip';
+import { Badge } from './ui/badge';
 
 interface TaskCardProps {
   task: Task;
@@ -40,15 +41,15 @@ export function TaskCard({ task, updateTask, deleteTask, toggleTaskCompletion }:
 
   return (
     <Card className={cn(
-      "flex flex-col rounded-xl shadow-lg shadow-black/[0.02] dark:shadow-black/20 transition-all duration-300 hover:shadow-md hover:-translate-y-1",
-      task.completed ? "bg-card/50 dark:bg-card/40" : "bg-card"
+      "flex flex-col rounded-lg transition-all duration-300 hover:shadow-md hover:-translate-y-1",
+      task.completed ? "bg-card/80 dark:bg-card/60" : "bg-card"
     )}>
       <CardHeader className="flex-row items-start gap-4 space-y-0 pb-3">
         <Checkbox
           id={`complete-${task.id}`}
           checked={task.completed}
           onCheckedChange={() => toggleTaskCompletion(task.id)}
-          className="mt-1 rounded-full w-5 h-5"
+          className="mt-1 w-5 h-5"
           aria-label={`Mark task "${task.title}" as ${task.completed ? 'incomplete' : 'complete'}`}
         />
         <div className="flex-1">
@@ -61,6 +62,7 @@ export function TaskCard({ task, updateTask, deleteTask, toggleTaskCompletion }:
             </p>
           )}
         </div>
+         {task.category && <Badge variant="secondary">{task.category}</Badge>}
       </CardHeader>
       <CardContent className="flex-grow pb-4">
         {task.dueDate && (

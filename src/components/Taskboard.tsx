@@ -4,11 +4,11 @@ import { useState, useMemo } from 'react';
 import { Task } from '@/lib/types';
 import { TaskCard } from './TaskCard';
 import { Input } from './ui/input';
-import { Button } from './ui/button';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from './ui/dialog';
 import { TaskForm } from './TaskForm';
-import { PlusCircle, Search, Inbox, List, ListChecks, CheckCircle2 } from 'lucide-react';
-import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
+import { PlusCircle, Search, Clock, List, CheckCircle, ClipboardList } from 'lucide-react';
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
+import { Card } from './ui/card';
 
 interface TaskboardProps {
   tasks: Task[];
@@ -23,7 +23,7 @@ type Filter = "all" | "pending" | "completed";
 export function Taskboard({ tasks, addTask, updateTask, deleteTask, toggleTaskCompletion }: TaskboardProps) {
   const [searchTerm, setSearchTerm] = useState('');
   const [filter, setFilter] = useState<Filter>('all');
-  const [isFormOpen, setIsFormOpen] = useState(false);
+  const [isCreateFormOpen, setIsCreateFormOpen] = useState(true);
 
   const filteredTasks = useMemo(() => {
     const sorted = tasks.sort((a, b) => {
@@ -39,7 +39,8 @@ export function Taskboard({ tasks, addTask, updateTask, deleteTask, toggleTaskCo
       })
       .filter(task =>
         task.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        task.description?.toLowerCase().includes(searchTerm.toLowerCase())
+        task.description?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        task.category?.toLowerCase().includes(searchTerm.toLowerCase())
       );
   }, [tasks, filter, searchTerm]);
 
@@ -51,46 +52,46 @@ export function Taskboard({ tasks, addTask, updateTask, deleteTask, toggleTaskCo
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+       <Collapsible open={isCreateFormOpen} onOpenChange={setIsCreateFormOpen} className="w-full">
+         <Card>
+            <CollapsibleTrigger asChild>
+                <button className="flex items-center justify-between w-full p-4 font-bold text-lg">
+                    <div className="flex items-center">
+                        <PlusCircle className="mr-3 h-6 w-6 text-primary" />
+                        Create New Task
+                    </div>
+                </button>
+            </CollapsibleTrigger>
+            <CollapsibleContent className="p-4 pt-0 border-t">
+                 <TaskForm onSubmit={addTask} closeForm={() => setIsCreateFormOpen(false)} />
+            </CollapsibleContent>
+         </Card>
+       </Collapsible>
+        
+       <Card className="p-4 space-y-4">
         <div className="relative flex-1">
           <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
           <Input
             type="search"
-            placeholder="Search tasks by title or description..."
+            placeholder="Search tasks..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="pl-11 h-12 text-base rounded-full bg-card"
+            className="pl-11 h-11 bg-background"
           />
         </div>
-        <Dialog open={isFormOpen} onOpenChange={setIsFormOpen}>
-          <DialogTrigger asChild>
-            <Button className="w-full md:w-auto h-12 rounded-full font-bold text-base">
-              <PlusCircle className="mr-2 h-5 w-5" />
-              Add New Task
-            </Button>
-          </DialogTrigger>
-          <DialogContent className="sm:max-w-[480px]">
-            <DialogHeader>
-              <DialogTitle>Add New Task</DialogTitle>
-            </DialogHeader>
-            <TaskForm onSubmit={addTask} closeForm={() => setIsFormOpen(false)} />
-          </DialogContent>
-        </Dialog>
-      </div>
-
-       <div className="flex justify-center">
-        <ToggleGroup type="single" value={filter} onValueChange={(value) => { if (value) setFilter(value as Filter) }} className="bg-card rounded-full p-1.5 border">
-            <ToggleGroupItem value="all" aria-label="All tasks" className="rounded-full px-6 text-base data-[state=on]:text-primary-foreground data-[state=on]:bg-primary">
-                <List className="mr-2 h-4 w-4" /> All ({taskCounts.all})
+      
+        <ToggleGroup type="single" value={filter} onValueChange={(value) => { if (value) setFilter(value as Filter) }} className="w-full justify-start gap-2">
+            <ToggleGroupItem value="all" aria-label="All tasks" variant="outline" className="data-[state=on]:bg-primary data-[state=on]:text-primary-foreground">
+                <List className="mr-2 h-4 w-4" /> All Tasks <span className="ml-2 text-xs bg-muted-foreground/20 text-muted-foreground rounded-full px-2">{taskCounts.all}</span>
             </ToggleGroupItem>
-            <ToggleGroupItem value="pending" aria-label="Pending tasks" className="rounded-full px-6 text-base data-[state=on]:text-primary-foreground data-[state=on]:bg-primary">
-                <ListChecks className="mr-2 h-4 w-4" /> Pending ({taskCounts.pending})
+            <ToggleGroupItem value="pending" aria-label="Pending tasks" variant="outline" className="data-[state=on]:bg-primary data-[state=on]:text-primary-foreground">
+                <Clock className="mr-2 h-4 w-4" /> Pending <span className="ml-2 text-xs bg-muted-foreground/20 text-muted-foreground rounded-full px-2">{taskCounts.pending}</span>
             </ToggleGroupItem>
-            <ToggleGroupItem value="completed" aria-label="Completed tasks" className="rounded-full px-6 text-base data-[state=on]:text-primary-foreground data-[state=on]:bg-primary">
-                <CheckCircle2 className="mr-2 h-4 w-4" /> Completed ({taskCounts.completed})
+            <ToggleGroupItem value="completed" aria-label="Completed tasks" variant="outline" className="data-[state=on]:bg-primary data-[state=on]:text-primary-foreground">
+                <CheckCircle className="mr-2 h-4 w-4" /> Completed <span className="ml-2 text-xs bg-muted-foreground/20 text-muted-foreground rounded-full px-2">{taskCounts.completed}</span>
             </ToggleGroupItem>
         </ToggleGroup>
-       </div>
+       </Card>
         
       <div>
         {filteredTasks.length > 0 ? (
@@ -107,10 +108,10 @@ export function Taskboard({ tasks, addTask, updateTask, deleteTask, toggleTaskCo
           </div>
         ) : (
           <div className="flex flex-col items-center justify-center rounded-lg border-2 border-dashed border-muted-foreground/20 bg-card/50 p-16 text-center mt-12">
-            <Inbox className="h-16 w-16 text-muted-foreground/30" />
-            <h3 className="mt-6 text-2xl font-semibold text-muted-foreground">No tasks found</h3>
+            <ClipboardList className="h-16 w-16 text-muted-foreground/30" />
+            <h3 className="mt-6 text-2xl font-semibold text-muted-foreground">No tasks here</h3>
             <p className="mt-2 text-base text-muted-foreground/80">
-              There are no tasks matching your current filters.
+              Looks like there are no tasks matching your current search and filters.
             </p>
           </div>
         )}

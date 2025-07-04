@@ -9,6 +9,7 @@ import { Task } from '@/lib/types';
 import { LogOut, CheckSquare } from 'lucide-react';
 import { Button } from './ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
+import { ThemeToggle } from './theme-toggle';
 
 export default function TaskPage() {
   const router = useRouter();
@@ -38,7 +39,7 @@ export default function TaskPage() {
 
   if (!isClient || !isLoaded || !username) {
     return (
-      <div className="flex h-screen w-screen items-center justify-center p-4 bg-background bg-gradient-soft">
+      <div className="flex h-screen w-screen items-center justify-center p-4 bg-background">
         <div className="w-full max-w-6xl space-y-8">
           <div className="flex justify-between items-center">
              <Skeleton className="h-10 w-48" />
@@ -56,23 +57,21 @@ export default function TaskPage() {
   }
   
   return (
-    <div className="min-h-screen bg-background bg-gradient-soft text-foreground">
-      <header className="sticky top-0 z-40 w-full border-b backdrop-blur-lg bg-background/80 dark:bg-background/50">
+    <div className="min-h-screen bg-background text-foreground">
+      <header className="sticky top-0 z-40 w-full border-b bg-card">
         <div className="container flex h-20 items-center">
-          <div className="mr-4 flex items-center">
-            <CheckSquare className="h-8 w-8 mr-3 text-primary" />
-            <h1 className="text-2xl font-extrabold font-headline tracking-tight">TaskMaster</h1>
-          </div>
-          <div className="flex flex-1 items-center justify-end space-x-4">
-             <div className="text-right hidden sm:block">
-              <p className="font-semibold">{username}</p>
-              <p className="text-xs text-muted-foreground">Welcome back!</p>
+          <div className="mr-4 flex flex-col">
+            <div className="flex items-center">
+                <CheckSquare className="h-8 w-8 mr-3 text-primary" />
+                <h1 className="text-2xl font-extrabold font-headline tracking-tight">TaskFlow</h1>
             </div>
-             <Avatar>
-              <AvatarFallback>{getInitials(username)}</AvatarFallback>
-            </Avatar>
-            <Button variant="ghost" size="icon" onClick={handleLogout} aria-label="Log out">
-              <LogOut className="h-5 w-5" />
+            <p className="text-sm text-muted-foreground ml-11 -mt-1">Welcome back, {username}!</p>
+          </div>
+          <div className="flex flex-1 items-center justify-end space-x-2">
+            <ThemeToggle />
+            <Button variant="outline" onClick={handleLogout}>
+              <LogOut className="h-4 w-4 mr-2" />
+              Logout
             </Button>
           </div>
         </div>
