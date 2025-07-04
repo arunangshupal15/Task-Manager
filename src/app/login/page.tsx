@@ -7,14 +7,15 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { CheckSquare } from 'lucide-react';
+import { Skeleton } from '@/components/ui/skeleton';
 
 export default function LoginPage() {
   const [username, setUsername] = useState('');
-  const [year, setYear] = useState<number | null>(null);
+  const [isClient, setIsClient] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
-    setYear(new Date().getFullYear());
+    setIsClient(true);
   }, []);
 
   const handleLogin = (e: React.FormEvent) => {
@@ -25,11 +26,26 @@ export default function LoginPage() {
     }
   };
 
+  if (!isClient) {
+    return (
+        <div className="flex min-h-screen flex-col items-center justify-center bg-background p-4">
+            <div className="w-full max-w-sm flex flex-col items-center gap-8">
+                <div className="flex items-center gap-2">
+                    <Skeleton className="h-6 w-6" />
+                    <Skeleton className="h-5 w-32" />
+                </div>
+                <Skeleton className="h-[380px] w-full" />
+                <Skeleton className="h-4 w-48" />
+            </div>
+        </div>
+    );
+  }
+
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-background p-4">
       <div className="absolute top-8 flex items-center gap-2 text-foreground/80">
         <CheckSquare className="h-6 w-6 text-primary" />
-        <h1 className="text-xl font-bold font-headline">TaskFlow</h1>
+        <h1 className="text-xl font-bold font-headline">TaskMaster</h1>
       </div>
       <Card className="w-full max-w-sm shadow-lg">
         <CardHeader className="text-center">
@@ -63,7 +79,7 @@ export default function LoginPage() {
         </form>
       </Card>
        <p className="text-center text-xs text-muted-foreground mt-8 h-4">
-        {year && `© ${year} TaskFlow Inc.`}
+        © {new Date().getFullYear()} TaskMaster Inc.
       </p>
     </div>
   );
