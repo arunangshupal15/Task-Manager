@@ -67,7 +67,7 @@ export default function TaskPage() {
                 </span>
                 <h1 className="text-2xl font-extrabold font-headline tracking-tight">TaskMaster</h1>
             </div>
-            <p className="text-sm text-muted-foreground ml-11 -mt-1">Welcome back, {username}!</p>
+            <p className="text-sm text-secondary-foreground/90 ml-11 -mt-1">Welcome back, {username}!</p>
           </div>
           <div className="flex flex-1 items-center justify-end space-x-2">
             <ThemeToggle />
