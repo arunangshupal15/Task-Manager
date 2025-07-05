@@ -31,7 +31,8 @@ export const useTasks = (username: string) => {
     if (isLoaded) {
       try {
         localStorage.setItem(storageKey, JSON.stringify(tasks));
-      } catch (error) {
+      } catch (error)
+      {
         console.error("Failed to save tasks to local storage", error);
         toast({
           title: "Error",
@@ -42,10 +43,11 @@ export const useTasks = (username: string) => {
     }
   }, [tasks, isLoaded, storageKey, toast]);
 
-  const addTask = useCallback((task: Omit<Task, 'id' | 'completed'>) => {
+  const addTask = useCallback((task: Omit<Task, 'id' | 'completed' | 'createdAt'>) => {
     const newTask: Task = {
       ...task,
       id: new Date().toISOString(),
+      createdAt: new Date().toISOString(),
       completed: false,
     };
     setTasks(prevTasks => [newTask, ...prevTasks]);

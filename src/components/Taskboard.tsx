@@ -12,7 +12,7 @@ import { Card } from './ui/card';
 
 interface TaskboardProps {
   tasks: Task[];
-  addTask: (task: Omit<Task, 'id' | 'completed'>) => void;
+  addTask: (task: Omit<Task, 'id' | 'completed' | 'createdAt'>) => void;
   updateTask: (task: Task) => void;
   deleteTask: (taskId: string) => void;
   toggleTaskCompletion: (taskId: string) => void;

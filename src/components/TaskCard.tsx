@@ -10,7 +10,7 @@ import { Checkbox } from './ui/checkbox';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from './ui/dialog';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from './ui/alert-dialog';
 import { TaskForm } from './TaskForm';
-import { Edit, Trash2, Calendar, ChevronsUp, ChevronUp, Equal, ChevronDown } from 'lucide-react';
+import { Edit, Trash2, Calendar, ChevronsUp, ChevronUp, Equal, ChevronDown, Clock } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './ui/tooltip';
 import { Badge } from './ui/badge';
 
@@ -53,7 +53,7 @@ export function TaskCard({ task, updateTask, deleteTask, toggleTaskCompletion, a
           id={`complete-${task.id}`}
           checked={task.completed}
           onCheckedChange={() => toggleTaskCompletion(task.id)}
-          className="mt-1 w-5 h-5 border-2"
+          className="mt-1 w-5 h-5 border-[3px] data-[state=checked]:border-primary"
           aria-label={`Mark task "${task.title}" as ${task.completed ? 'incomplete' : 'complete'}`}
         />
         <div className="flex-1">
@@ -68,7 +68,13 @@ export function TaskCard({ task, updateTask, deleteTask, toggleTaskCompletion, a
         </div>
          {task.category && <Badge variant="secondary">{task.category}</Badge>}
       </CardHeader>
-      <CardContent className="flex-grow pb-4">
+      <CardContent className="flex-grow pb-4 space-y-2">
+        {task.createdAt && (
+            <div className="flex items-center text-sm text-muted-foreground gap-2">
+                <Clock className="h-4 w-4" />
+                <span>Created: {format(parseISO(task.createdAt), "MMM d, yyyy 'at' h:mm a")}</span>
+            </div>
+        )}
         {task.dueDate && (
             <div className="flex items-center text-sm text-muted-foreground gap-2">
                 <Calendar className="h-4 w-4" />
