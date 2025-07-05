@@ -83,14 +83,14 @@ export function Taskboard({ tasks, addTask, updateTask, deleteTask, toggleTaskCo
         </div>
       
         <ToggleGroup type="single" value={filter} onValueChange={(value) => { if (value) setFilter(value as Filter) }} className="w-full justify-start gap-2">
-            <ToggleGroupItem value="all" aria-label="All tasks" variant="outline" className="data-[state=on]:bg-gradient-to-r data-[state=on]:from-primary data-[state=on]:to-[hsl(var(--primary-gradient-end))] data-[state=on]:text-primary-foreground data-[state=on]:border-transparent">
-                <List className="mr-2 h-4 w-4" /> All Tasks <span className="ml-2 text-xs bg-muted-foreground/20 text-muted-foreground rounded-full px-2">{taskCounts.all}</span>
+            <ToggleGroupItem value="all" aria-label="All tasks" variant="outline" className="group/item data-[state=on]:bg-gradient-to-r data-[state=on]:from-primary data-[state=on]:to-[hsl(var(--primary-gradient-end))] data-[state=on]:text-primary-foreground data-[state=on]:border-transparent">
+                <List className="mr-2 h-4 w-4" /> All Tasks <span className="ml-2 text-xs bg-muted-foreground/20 text-muted-foreground rounded-full px-2 group-data-[state=on]/item:bg-primary-foreground/20 group-data-[state=on]/item:text-primary-foreground">{taskCounts.all}</span>
             </ToggleGroupItem>
-            <ToggleGroupItem value="pending" aria-label="Pending tasks" variant="outline" className="data-[state=on]:bg-gradient-to-r data-[state=on]:from-primary data-[state=on]:to-[hsl(var(--primary-gradient-end))] data-[state=on]:text-primary-foreground data-[state=on]:border-transparent">
-                <Clock className="mr-2 h-4 w-4" /> Pending <span className="ml-2 text-xs bg-muted-foreground/20 text-muted-foreground rounded-full px-2">{taskCounts.pending}</span>
+            <ToggleGroupItem value="pending" aria-label="Pending tasks" variant="outline" className="group/item data-[state=on]:bg-gradient-to-r data-[state=on]:from-primary data-[state=on]:to-[hsl(var(--primary-gradient-end))] data-[state=on]:text-primary-foreground data-[state=on]:border-transparent">
+                <Clock className="mr-2 h-4 w-4" /> Pending <span className="ml-2 text-xs bg-muted-foreground/20 text-muted-foreground rounded-full px-2 group-data-[state=on]/item:bg-primary-foreground/20 group-data-[state=on]/item:text-primary-foreground">{taskCounts.pending}</span>
             </ToggleGroupItem>
-            <ToggleGroupItem value="completed" aria-label="Completed tasks" variant="outline" className="data-[state=on]:bg-gradient-to-r data-[state=on]:from-primary data-[state=on]:to-[hsl(var(--primary-gradient-end))] data-[state=on]:text-primary-foreground data-[state=on]:border-transparent">
-                <CheckCircle className="mr-2 h-4 w-4" /> Completed <span className="ml-2 text-xs bg-muted-foreground/20 text-muted-foreground rounded-full px-2">{taskCounts.completed}</span>
+            <ToggleGroupItem value="completed" aria-label="Completed tasks" variant="outline" className="group/item data-[state=on]:bg-gradient-to-r data-[state=on]:from-primary data-[state=on]:to-[hsl(var(--primary-gradient-end))] data-[state=on]:text-primary-foreground data-[state=on]:border-transparent">
+                <CheckCircle className="mr-2 h-4 w-4" /> Completed <span className="ml-2 text-xs bg-muted-foreground/20 text-muted-foreground rounded-full px-2 group-data-[state=on]/item:bg-primary-foreground/20 group-data-[state=on]/item:text-primary-foreground">{taskCounts.completed}</span>
             </ToggleGroupItem>
         </ToggleGroup>
        </Card>
