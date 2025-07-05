@@ -26,7 +26,7 @@ export function Taskboard({ tasks, addTask, updateTask, deleteTask, toggleTaskCo
   const [isCreateFormOpen, setIsCreateFormOpen] = useState(true);
 
   const filteredTasks = useMemo(() => {
-    const sorted = tasks.sort((a, b) => {
+    const sorted = [...tasks].sort((a, b) => {
         const priorityOrder = { urgent: 0, high: 1, medium: 2, low: 3 };
         return priorityOrder[a.priority] - priorityOrder[b.priority];
     });
