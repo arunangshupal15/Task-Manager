@@ -14,7 +14,13 @@ export const useTasks = (username: string) => {
     try {
       const storedTasks = localStorage.getItem(storageKey);
       if (storedTasks) {
-        setTasks(JSON.parse(storedTasks));
+        const parsedTasks: Task[] = JSON.parse(storedTasks);
+        // Add a migration for old tasks that don't have createdAt
+        const migratedTasks = parsedTasks.map(task => ({
+          ...task,
+          createdAt: task.createdAt || task.id, // Fallback to id if createdAt is missing
+        }));
+        setTasks(migratedTasks);
       }
     } catch (error) {
       console.error("Failed to load tasks from local storage", error);
