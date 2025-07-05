@@ -36,7 +36,7 @@ A modern, full-stack taskboard application to help you organize and manage your 
 
 ## Live Demo
 
-[Add your deployed application link here]
+[Live Link](https://task-manager-eta-flax.vercel.app/)
 
 ## Screenshots
 
