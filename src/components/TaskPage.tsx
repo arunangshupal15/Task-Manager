@@ -58,7 +58,7 @@ export default function TaskPage() {
   
   return (
     <div className="min-h-screen bg-background text-foreground animate-fade-in">
-      <header className="sticky top-0 z-40 w-full border-b bg-secondary dark:bg-[#9f2c3c]">
+      <header className="sticky top-0 z-40 w-full border-b bg-secondary dark:bg-[#B13BFF]">
         <div className="container flex h-20 items-center">
           <div className="mr-4 flex flex-col">
             <div className="flex items-center">
