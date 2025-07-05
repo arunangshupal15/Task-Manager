@@ -30,10 +30,10 @@ const priorityIcons: Record<Priority, React.ElementType> = {
 };
 
 const priorityStyles: Record<Priority, string> = {
-  urgent: "text-red-500",
-  high: "text-orange-500",
-  medium: "text-blue-500",
-  low: "text-green-500",
+  urgent: "text-destructive",
+  high: "text-warning",
+  medium: "text-primary",
+  low: "text-success",
 };
 
 export function TaskCard({ task, updateTask, deleteTask, toggleTaskCompletion, animationDelay = 0 }: TaskCardProps) {
