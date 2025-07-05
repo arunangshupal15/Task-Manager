@@ -43,7 +43,7 @@ export function TaskCard({ task, updateTask, deleteTask, toggleTaskCompletion, a
   return (
     <Card 
         className={cn(
-            "flex flex-col rounded-lg transition-all duration-300 hover:shadow-lg hover:-translate-y-1.5 opacity-0 animate-pop-in",
+            "flex flex-col rounded-lg transition-all duration-300 hover:shadow-[0_0_20px_hsl(var(--primary)/0.3)] hover:-translate-y-1.5 opacity-0 animate-pop-in",
             task.completed ? "bg-card/80 dark:bg-card/60" : "bg-card"
         )}
         style={{ animationDelay: `${animationDelay}ms`, animationFillMode: 'forwards' }}
@@ -53,7 +53,7 @@ export function TaskCard({ task, updateTask, deleteTask, toggleTaskCompletion, a
           id={`complete-${task.id}`}
           checked={task.completed}
           onCheckedChange={() => toggleTaskCompletion(task.id)}
-          className="mt-1 w-5 h-5"
+          className="mt-1 w-5 h-5 border-2"
           aria-label={`Mark task "${task.title}" as ${task.completed ? 'incomplete' : 'complete'}`}
         />
         <div className="flex-1">

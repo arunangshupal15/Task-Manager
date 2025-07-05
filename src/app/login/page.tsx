@@ -46,7 +46,9 @@ export default function LoginPage() {
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-background p-4">
       <div className="absolute top-8 flex items-center gap-2 text-foreground/80">
-        <CheckSquare className="h-6 w-6 text-primary" />
+        <span className="bg-gradient-to-r from-primary to-[hsl(var(--primary-gradient-end))] bg-clip-text text-transparent">
+          <CheckSquare className="h-6 w-6" />
+        </span>
         <h1 className="text-xl font-bold font-headline">TaskMaster</h1>
       </div>
       <Card className="w-full max-w-sm shadow-lg">

@@ -62,7 +62,9 @@ export default function TaskPage() {
         <div className="container flex h-20 items-center">
           <div className="mr-4 flex flex-col">
             <div className="flex items-center">
-                <CheckSquare className="h-8 w-8 mr-3 text-primary" />
+                <span className="mr-3 bg-gradient-to-r from-primary to-[hsl(var(--primary-gradient-end))] bg-clip-text text-transparent">
+                    <CheckSquare className="h-8 w-8" />
+                </span>
                 <h1 className="text-2xl font-extrabold font-headline tracking-tight">TaskMaster</h1>
             </div>
             <p className="text-sm text-muted-foreground ml-11 -mt-1">Welcome back, {username}!</p>
