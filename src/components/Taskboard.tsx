@@ -53,7 +53,7 @@ export function Taskboard({ tasks, addTask, updateTask, deleteTask, toggleTaskCo
   return (
     <div className="space-y-6">
        <Collapsible open={isCreateFormOpen} onOpenChange={setIsCreateFormOpen} className="w-full">
-         <Card>
+         <Card className="animate-slide-in-from-bottom" style={{ animationDelay: '100ms', animationFillMode: 'forwards' }}>
             <CollapsibleTrigger asChild>
                 <button className="flex items-center justify-between w-full p-4 font-bold text-lg">
                     <div className="flex items-center">
@@ -68,7 +68,7 @@ export function Taskboard({ tasks, addTask, updateTask, deleteTask, toggleTaskCo
          </Card>
        </Collapsible>
         
-       <Card className="p-4 space-y-4">
+       <Card className="p-4 space-y-4 animate-slide-in-from-bottom" style={{ animationDelay: '200ms', animationFillMode: 'forwards' }}>
         <div className="relative flex-1">
           <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
           <Input
@@ -96,18 +96,19 @@ export function Taskboard({ tasks, addTask, updateTask, deleteTask, toggleTaskCo
       <div>
         {filteredTasks.length > 0 ? (
           <div className="grid gap-6 sm:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3">
-            {filteredTasks.map(task => (
+            {filteredTasks.map((task, index) => (
               <TaskCard
                 key={task.id}
                 task={task}
                 updateTask={updateTask}
                 deleteTask={deleteTask}
                 toggleTaskCompletion={toggleTaskCompletion}
+                animationDelay={index * 50}
               />
             ))}
           </div>
         ) : (
-          <div className="flex flex-col items-center justify-center rounded-lg border-2 border-dashed border-muted-foreground/20 bg-card/50 p-16 text-center mt-12">
+          <div className="flex flex-col items-center justify-center rounded-lg border-2 border-dashed border-muted-foreground/20 bg-card/50 p-16 text-center mt-12 animate-pop-in">
             <ClipboardList className="h-16 w-16 text-muted-foreground/30" />
             <h3 className="mt-6 text-2xl font-semibold text-muted-foreground">No tasks here</h3>
             <p className="mt-2 text-base text-muted-foreground/80">

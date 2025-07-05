@@ -57,7 +57,7 @@ export default function TaskPage() {
   }
   
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="min-h-screen bg-background text-foreground animate-fade-in">
       <header className="sticky top-0 z-40 w-full border-b bg-card">
         <div className="container flex h-20 items-center">
           <div className="mr-4 flex flex-col">

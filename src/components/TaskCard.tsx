@@ -19,6 +19,7 @@ interface TaskCardProps {
   updateTask: (task: Task) => void;
   deleteTask: (taskId: string) => void;
   toggleTaskCompletion: (taskId: string) => void;
+  animationDelay?: number;
 }
 
 const priorityIcons: Record<Priority, React.ElementType> = {
@@ -35,15 +36,18 @@ const priorityStyles: Record<Priority, string> = {
   low: "text-green-500",
 };
 
-export function TaskCard({ task, updateTask, deleteTask, toggleTaskCompletion }: TaskCardProps) {
+export function TaskCard({ task, updateTask, deleteTask, toggleTaskCompletion, animationDelay = 0 }: TaskCardProps) {
   const [isEditFormOpen, setIsEditFormOpen] = useState(false);
   const PriorityIcon = priorityIcons[task.priority];
 
   return (
-    <Card className={cn(
-      "flex flex-col rounded-lg transition-all duration-300 hover:shadow-md hover:-translate-y-1",
-      task.completed ? "bg-card/80 dark:bg-card/60" : "bg-card"
-    )}>
+    <Card 
+        className={cn(
+            "flex flex-col rounded-lg transition-all duration-300 hover:shadow-lg hover:-translate-y-1.5 opacity-0 animate-pop-in",
+            task.completed ? "bg-card/80 dark:bg-card/60" : "bg-card"
+        )}
+        style={{ animationDelay: `${animationDelay}ms`, animationFillMode: 'forwards' }}
+    >
       <CardHeader className="flex-row items-start gap-4 space-y-0 pb-3">
         <Checkbox
           id={`complete-${task.id}`}
