@@ -58,7 +58,7 @@ export default function TaskPage() {
   
   return (
     <div className="min-h-screen bg-background text-foreground animate-fade-in">
-      <header className="sticky top-0 z-40 w-full border-b bg-secondary">
+      <header className="sticky top-0 z-40 w-full border-b bg-secondary dark:bg-[#9f2c3c]">
         <div className="container flex h-20 items-center">
           <div className="mr-4 flex flex-col">
             <div className="flex items-center">
@@ -67,7 +67,7 @@ export default function TaskPage() {
                 </span>
                 <h1 className="text-2xl font-extrabold font-headline tracking-tight">TaskMaster</h1>
             </div>
-            <p className="text-sm text-secondary-foreground/90 ml-11 -mt-1">Welcome back, {username}!</p>
+            <p className="text-sm text-secondary-foreground/90 dark:text-white/90 ml-11 -mt-1">Welcome back, {username}!</p>
           </div>
           <div className="flex flex-1 items-center justify-end space-x-2">
             <ThemeToggle />
